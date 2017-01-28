@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">QuizDroid</string>
+    <string name="str_next">Next</string>
+    <string-array name="topics">
+        <item>Math</item>
+        <item>Physics</item>
+        <item>Marvel Super Heroes</item>
+    </string-array>
+    <string-array name="descriptions">
+        <item>Filler description 1</item>
+        <item>Filler description 2</item>
+        <item>Filler description 3</item>
+    </string-array>
+    <string-array name="quiz_names">
+        <item>questions_1</item>
+        <item>questions_2</item>
+        <item>questions_3</item>
+    </string-array>
+    <string-array name="questions_1">
+        <item>Filler question 1 topic 1</item>
+        <item>Filler question 2 topic 1</item>
+        <item>Filler question 2 topic 1</item>
+    </string-array>
 </resources>
