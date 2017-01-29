@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class TopicOverviewActivity extends Activity {
     public final static String EXTRA_OVERVIEW = "com.example.quizdroid.OVERVIEW";
 
@@ -16,24 +18,29 @@ public class TopicOverviewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_overview);
-        String[] descriptions = getResources().getStringArray(R.array.descriptions);
 
         Intent intent = getIntent();
         final int quizNumber = intent.getIntExtra(MainActivity.EXTRA_TOPIC, 0);
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(descriptions[quizNumber]);
+        TextView descText = new TextView(this);
+        TextView numberText = new TextView(this);
+        descText.setTextSize(20);
+        numberText.setTextSize(20);
+
+        numberText.setText(getString(R.string.number_of_questions));
+        descText.setText(getString(R.string.description));
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.activity_topic_overview);
-        layout.addView(textView, 0);
+        layout.addView(descText, 0);
+        layout.addView(numberText, 1);
 
-        final Button button = (Button) findViewById(R.id.btn_next);
+        final Button button = (Button) findViewById(R.id.btn_begin);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TopicOverviewActivity.class);
-                intent.putExtra(EXTRA_OVERVIEW, quizNumber);
+                Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
+                intent.putExtra(EXTRA_OVERVIEW, 0); // 0 = start on first question
                 startActivity(intent);
+                finish();
             }
         });
     }
