@@ -5,24 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class QuestionActivity extends Activity {
-    private int correct;
+    private int questionNumber;
+    private int correctTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
-        correct = 0;
-        Intent intent = getIntent();
+        Bundle bundle = getIntent().getExtras();
         // get question number based on previous question number
-        int questionNumber = intent.getIntExtra(TopicOverviewActivity.EXTRA_OVERVIEW, 0);
+        questionNumber = bundle.getInt("questionNumber");
+        correctTotal = bundle.getInt("correctTotal");
         TextView question = (TextView) findViewById(R.id.question);
         question.setText(getResources().getStringArray(R.array.questions)[questionNumber]);
         question.setTextSize(40);
@@ -39,20 +38,30 @@ public class QuestionActivity extends Activity {
     }
 
     public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-        Button next = (Button) findViewById(R.id.btn_next);
-        next.setVisibility(View.VISIBLE);
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.radio_1:
-                if (checked)
+        final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+        final String yourAnswer = ((RadioButton) view).getText().toString();
+        final Button submit = (Button) findViewById(R.id.btn_submit);
 
-                    break;
-            case R.id.radio_2:
-                if (checked)
+        /*int radioButtonID = radioGroup.getCheckedRadioButtonId();
+        View radioButton = radioGroup.findViewById(radioButtonID);
+        int idx = radioGroup.indexOfChild(radioButton);*/
 
-                    break;
-        }
+        submit.setVisibility(View.VISIBLE);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // if correct answer selected
+                String[] correctAnswers = getResources().getStringArray(R.array.answers);
+                Boolean isCorrect = (((RadioButton) radioGroup.getChildAt(Integer
+                        .parseInt(correctAnswers[questionNumber]))).isChecked());
+                // go to answer page
+                Intent intent = new Intent(getApplicationContext(), AnswerActivity.class);
+                intent.putExtra("yourAnswer", yourAnswer);
+                intent.putExtra("questionNumber", questionNumber);
+                intent.putExtra("isCorrect", isCorrect);
+                intent.putExtra("correctTotal", correctTotal);
+                startActivity(intent);
+            }
+        });
     }
 }

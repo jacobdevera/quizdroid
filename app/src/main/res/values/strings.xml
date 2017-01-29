@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">QuizDroid</string>
+    <string name="str_overview">Topic Overview</string>
     <string name="str_begin">Begin</string>
+    <string name="str_submit">Submit</string>
     <string name="str_next">Next</string>
+    <string name="str_your_answer">Your answer was: %1$s</string>
+    <string name="str_correct_answer">The correct answer was: %1$s</string>
+    <string name="str_ratio">You have %1$d out of %2$d correct</string>
+    <string name="str_finish">Finish</string>
     <string-array name="topics">
         <item>Math</item>
         <item>Physics</item>
@@ -19,6 +25,16 @@
         <item>Filler question 6</item>
         <item>Filler question 7</item>
         <item>Filler question 8</item>
+    </string-array>
+    <string-array name="answers">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>2</item>
+        <item>2</item>
+        <item>3</item>
+        <item>0</item>
     </string-array>
     <string-array name="choices">
         <item>Filler choice 1</item>

@@ -6,14 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 public class TopicOverviewActivity extends Activity {
-    public final static String EXTRA_OVERVIEW = "com.example.quizdroid.OVERVIEW";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +25,16 @@ public class TopicOverviewActivity extends Activity {
         descText.setText(getString(R.string.description));
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.activity_topic_overview);
-        layout.addView(descText, 0);
-        layout.addView(numberText, 1);
+        layout.addView(descText, 1);
+        layout.addView(numberText, 2);
 
         final Button button = (Button) findViewById(R.id.btn_begin);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
-                intent.putExtra(EXTRA_OVERVIEW, 0); // 0 = start on first question
+                intent.putExtra("questionNumber", 0); // 0 = start on first question
+                intent.putExtra("correctTotal", 0);
                 startActivity(intent);
                 finish();
             }

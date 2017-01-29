@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/question" />
     <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -37,9 +38,9 @@
     </RadioGroup>
 
     <Button
-        android:text="@string/str_next"
+        android:text="@string/str_submit"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_next" />
+        android:id="@+id/btn_submit" />
 </LinearLayout>
