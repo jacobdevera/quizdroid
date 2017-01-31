@@ -9,7 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
-    public final static String EXTRA_TOPIC = "com.example.quizdroid.TOPIC";
+    public final static String EXTRA_TOPIC = "edu.washington.gjdevera.quizdroid.TOPIC";
+    public static final String EXTRA_QUESTION_NUMBER = "edu.washington.gjdevera.quizdroid.QUESTION_NUMBER";
+    public static final String EXTRA_CORRECT_TOTAL = "edu.washington.gjdevera.quizdroid.CORRECT_TOTAL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,7 @@ public class MainActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), TopicOverviewActivity.class);
+                Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
                 intent.putExtra(EXTRA_TOPIC, position);
                 startActivity(intent);
             }

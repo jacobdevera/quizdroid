@@ -15,10 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TopicOverviewActivity" />
-        <activity android:name=".QuestionActivity" />
-        <activity android:name=".Answer" />
-        <activity android:name=".AnswerActivity"></activity>
+        <activity android:name=".QuizActivity" />
+        <fragment android:name=".QuestionFragment" />
+        <fragment android:name=".AnswerFragment"></fragment>
     </application>
 
 </manifest>
