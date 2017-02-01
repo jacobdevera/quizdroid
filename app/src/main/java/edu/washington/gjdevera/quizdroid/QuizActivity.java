@@ -16,7 +16,6 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
     private int questionNumber = -1; // first question = 0, increment by one when instantiating
     private int correctTotal = 0;
     private String yourAnswer;
-    private boolean isCorrect;
     private boolean isFirstFragmentOn = false;
 
     @Override
