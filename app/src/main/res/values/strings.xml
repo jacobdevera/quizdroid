@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">QuizDroid</string>
-    <string name="str_main">Topic Overview</string>
+    <string name="str_topic_name">Topic Name</string>
     <string name="str_begin">Begin</string>
     <string name="str_submit">Submit</string>
     <string name="str_next">Next</string>
+    <string name="str_header_correct">Correct!</string>
+    <string name="str_header_wrong">Nice try, but...</string>
     <string name="str_your_answer">Your answer was: %1$s</string>
     <string name="str_correct_answer">The correct answer was: %1$s</string>
     <string name="str_ratio">You have %1$d out of %2$d correct</string>

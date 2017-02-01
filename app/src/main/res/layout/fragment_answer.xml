@@ -12,6 +12,7 @@
     tools:context="edu.washington.gjdevera.quizdroid.AnswerFragment">
 
     <TextView
+        android:text="test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/your_answer" />
@@ -25,10 +26,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ratio" />
-
-    <Button
-        android:text="@string/str_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_next" />
 </LinearLayout>

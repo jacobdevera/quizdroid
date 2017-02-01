@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +17,18 @@ import android.widget.TextView;
 public class QuestionFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    private static final String ARG_QUESTION_NUMBER = "questionNumber";
-    private static final String ARG_CORRECT_TOTAL = "correctTotal";
+    public static final String ARG_QUESTION_NUMBER = "questionNumber";
 
     private int mQuestionNumber;
-    private int mCorrectTotal;
 
     public QuestionFragment() {
         // required empty constructor
     }
 
-    public static QuestionFragment newInstance(int questionNumber, int correctTotal) {
+    public static QuestionFragment newInstance(int questionNumber) {
         QuestionFragment fragment = new QuestionFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_QUESTION_NUMBER, questionNumber);
-        args.putInt(ARG_CORRECT_TOTAL, correctTotal);
         fragment.setArguments(args);
         return fragment;
     }
@@ -40,7 +38,6 @@ public class QuestionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mQuestionNumber = getArguments().getInt(ARG_QUESTION_NUMBER);
-            mCorrectTotal = getArguments().getInt(ARG_CORRECT_TOTAL);
         }
     }
 
@@ -48,7 +45,6 @@ public class QuestionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_question, container, false);
-
         return view;
     }
 
@@ -56,7 +52,7 @@ public class QuestionFragment extends Fragment {
         TextView question = (TextView) getView().findViewById(R.id.question);
         question.setText(getResources().getStringArray(R.array.questions)[mQuestionNumber]);
         question.setTextSize(40);
-
+        
         RadioButton radio1 = (RadioButton) getView().findViewById(R.id.radio_1);
         RadioButton radio2 = (RadioButton) getView().findViewById(R.id.radio_2);
         RadioButton radio3 = (RadioButton) getView().findViewById(R.id.radio_3);
@@ -67,7 +63,7 @@ public class QuestionFragment extends Fragment {
         radio3.setText(radioArray[2]);
         radio4.setText(radioArray[3]);
     }
-    
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
