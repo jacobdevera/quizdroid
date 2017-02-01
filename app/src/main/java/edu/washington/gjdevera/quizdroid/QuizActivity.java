@@ -4,16 +4,15 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class QuizActivity extends Activity {
+public class QuizActivity extends Activity implements TopicOverviewFragment.OnFragmentInteractionListener {
     private int questionNumber = -1; // first question = 0, increment by one when instantiating
     private int correctTotal = 0;
     private String yourAnswer;
@@ -28,17 +27,8 @@ public class QuizActivity extends Activity {
         Intent intent = getIntent();
         final int quizNumber = intent.getIntExtra(MainActivity.EXTRA_TOPIC, 0);
         final TextView headerText = (TextView) findViewById(R.id.header);
-        final TextView descText = new TextView(this);
-        final TextView numberText = new TextView(this);
-        descText.setTextSize(20);
-        numberText.setTextSize(20);
 
-        numberText.setText(getString(R.string.number_of_questions));
-        descText.setText(getString(R.string.description));
-
-        LinearLayout layout = (LinearLayout) findViewById(R.id.activity_topic_overview);
-        layout.addView(descText, 1);
-        layout.addView(numberText, 2);
+        changeFragment(new TopicOverviewFragment()); // display topic overview
 
         final Button button = (Button) findViewById(R.id.btn_main);
         button.setOnClickListener(new View.OnClickListener() {
@@ -48,11 +38,6 @@ public class QuizActivity extends Activity {
                 Boolean lastQuestion =
                         (questionNumber + 1 >=
                                 getResources().getStringArray(R.array.questions).length);
-
-                if (questionNumber == -1) { // remove topic overview
-                    ((ViewGroup) numberText.getParent()).removeView(numberText);
-                    ((ViewGroup) descText.getParent()).removeView(descText);
-                }
 
                 if (isFirstFragmentOn) {
                     // Display answer fragment
@@ -86,12 +71,17 @@ public class QuizActivity extends Activity {
                     }
                 }
                 if (fragToDisplay != null) {
-                    FragmentTransaction tx = getFragmentManager().beginTransaction();
-                    tx.replace(R.id.fragment_placeholder, fragToDisplay);
-                    tx.commit();
+                    changeFragment(fragToDisplay);
                 }
             }
         });
+    }
+
+    private void changeFragment(Fragment fragToDisplay) {
+        FragmentTransaction tx = getFragmentManager().beginTransaction();
+        tx.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+        tx.replace(R.id.fragment_placeholder, fragToDisplay);
+        tx.commit();
     }
 
     public void onRadioButtonClicked(View view) {
@@ -104,35 +94,12 @@ public class QuizActivity extends Activity {
         submit.setVisibility(View.VISIBLE);
     }
 
-
-    public int getQuestionNumber() {
-        return questionNumber;
-    }
-
-    public void setQuestionNumber(int n) {
-        questionNumber = n;
-    }
-
-    public int getCorrectTotal() {
-        return correctTotal;
-    }
-
-    public void setCorrectTotal(int n) {
-        correctTotal = n;
-    }
-
     public String getYourAnswer() {
         return yourAnswer;
     }
 
-    public void setYourAnswer(String s) {
-        yourAnswer = s;
-    }
-    public Boolean getCorrect() {
-        return isCorrect;
-    }
-
-    public void setCorrect(Boolean correct){
-        isCorrect = correct;
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        // mandatory method
     }
 }

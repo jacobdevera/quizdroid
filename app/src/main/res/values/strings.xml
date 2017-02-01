@@ -15,9 +15,9 @@
         <item>Physics</item>
         <item>Marvel Super Heroes</item>
     </string-array>
-    <string name="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    <string name="str_topic_overview">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
-    <string name="number_of_questions">Number of questions: 8</string>
+    <string name="str_number_of_questions">Number of questions: %1$d</string>
     <string-array name="questions">
         <item>Filler question 1</item>
         <item>Filler question 2</item>
