@@ -13,10 +13,10 @@
 
     <TextView
         android:text="@string/str_topic_name"
-        android:textSize="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/header" />
+        android:id="@+id/header"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline" />
 
     <FrameLayout
         android:id="@+id/fragment_placeholder"

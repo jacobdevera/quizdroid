@@ -15,15 +15,18 @@
         android:text="test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/your_answer" />
+        android:id="@+id/your_answer"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/correct_answer" />
+        android:id="@+id/correct_answer"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ratio" />
+        android:id="@+id/ratio"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 </LinearLayout>

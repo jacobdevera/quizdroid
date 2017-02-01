@@ -78,7 +78,7 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
 
     private void changeFragment(Fragment fragToDisplay) {
         FragmentTransaction tx = getFragmentManager().beginTransaction();
-        tx.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+        tx.setCustomAnimations(R.animator.fade_enter, R.animator.slide_out_right);
         tx.replace(R.id.fragment_placeholder, fragToDisplay);
         tx.commit();
     }

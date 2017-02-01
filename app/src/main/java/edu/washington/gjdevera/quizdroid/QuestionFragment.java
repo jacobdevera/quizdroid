@@ -46,7 +46,6 @@ public class QuestionFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         TextView question = (TextView) getView().findViewById(R.id.question);
         question.setText(getResources().getStringArray(R.array.questions)[mQuestionNumber]);
-        question.setTextSize(40);
 
         RadioButton radio1 = (RadioButton) getView().findViewById(R.id.radio_1);
         RadioButton radio2 = (RadioButton) getView().findViewById(R.id.radio_2);
