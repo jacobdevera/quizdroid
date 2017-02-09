@@ -9,6 +9,35 @@ import java.util.List;
 
 public class Topic {
     private String title;
-    private String desc;
+    private String shortDesc;
+    private String longDesc;
     private List<Question> questions = new ArrayList<Question>();
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
+    }
+
+    public void setLongDesc(String longDesc) {
+        this.longDesc = longDesc;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getShortDesc() {
+        return shortDesc;
+    }
+
+    public String getLongDesc() {
+        return longDesc;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
 }

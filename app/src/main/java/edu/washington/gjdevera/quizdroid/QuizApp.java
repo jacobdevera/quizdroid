@@ -13,6 +13,10 @@ public class QuizApp extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "QuizApp class loaded");
+        Log.d(TAG, "QuizApp class loaded");
+    }
+
+    public TopicMemoryRepository getRepository() {
+        return TopicMemoryRepository.instance;
     }
 }
