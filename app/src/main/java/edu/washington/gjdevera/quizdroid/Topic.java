@@ -11,7 +11,13 @@ public class Topic {
     private String title;
     private String shortDesc;
     private String longDesc;
-    private List<Question> questions = new ArrayList<Question>();
+    private List<Question> questions = new ArrayList<>();
+
+    public Topic(String title, String shortDesc, String longDesc) {
+        this.title = title;
+        this.shortDesc = shortDesc;
+        this.longDesc = longDesc;
+    }
 
     public void setTitle(String title) {
         this.title = title;

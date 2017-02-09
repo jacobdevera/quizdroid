@@ -8,7 +8,7 @@ import android.util.Log;
  */
 
 public class QuizApp extends android.app.Application {
-    private static final String TAG = "QuizApp";
+    public static final String TAG = "QuizApp";
 
     @Override
     public void onCreate() {

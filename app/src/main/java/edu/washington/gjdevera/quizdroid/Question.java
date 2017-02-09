@@ -9,6 +9,12 @@ public class Question {
     private String[] answers;
     private int correct;
 
+    public Question(String text, String[] answers, int correct) {
+        this.text = text;
+        this.answers = answers;
+        this.correct = correct;
+    }
+
     public void setText(String text) {
         this.text = text;
     }
