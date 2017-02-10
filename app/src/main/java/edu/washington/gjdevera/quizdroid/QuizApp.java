@@ -14,9 +14,10 @@ public class QuizApp extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "QuizApp class loaded");
+        getRepository();
     }
 
-    public TopicMemoryRepository getRepository() {
-        return TopicMemoryRepository.instance;
+    public static TopicMemoryRepository getRepository() {
+        return TopicMemoryRepository.getInstance();
     }
 }

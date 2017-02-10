@@ -1,5 +1,7 @@
 package edu.washington.gjdevera.quizdroid;
 
+import java.util.Arrays;
+
 /**
  * Created by Jacob Devera on 2/8/2017.
  */
@@ -37,5 +39,14 @@ public class Question {
 
     public int getCorrect() {
         return correct;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "text='" + text + '\'' +
+                ", answers=" + Arrays.toString(answers) +
+                ", correct=" + correct +
+                '}';
     }
 }

@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class QuizActivity extends Activity implements TopicOverviewFragment.OnFragmentInteractionListener {
+    private Topic topic;
     private int questionNumber = -1; // first question = 0, increment by one when instantiating
     private int correctTotal = 0;
     private String yourAnswer;
@@ -26,8 +27,9 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
         Intent intent = getIntent();
         final int quizNumber = intent.getIntExtra(MainActivity.EXTRA_TOPIC, 0);
         final TextView headerText = (TextView) findViewById(R.id.header);
-
-        changeFragment(new TopicOverviewFragment()); // display topic overview
+        changeFragment(TopicOverviewFragment.newInstance(quizNumber)); // display topic overview
+        topic = QuizApp.getRepository().getAllTopics().get(quizNumber);
+        headerText.setText(topic.getTitle());
 
         final Button button = (Button) findViewById(R.id.btn_main);
         button.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +38,7 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
                 Fragment fragToDisplay = null;
                 Boolean lastQuestion =
                         (questionNumber + 1 >=
-                                getResources().getStringArray(R.array.questions).length);
+                                topic.getQuestions().size());
 
                 if (isFirstFragmentOn) {
                     // Display answer fragment

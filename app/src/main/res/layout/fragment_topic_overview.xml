@@ -9,7 +9,6 @@
         android:id="@+id/topic_overview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/str_topic_overview"
         android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
     <TextView

@@ -8,7 +8,5 @@ import java.util.List;
  */
 
 public interface TopicRepository<E> {
-    public E getInstance();
-    public List<Topic> getAllTopics();
-
+    List<Topic> getAllTopics();
 }

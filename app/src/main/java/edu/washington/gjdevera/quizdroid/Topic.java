@@ -46,4 +46,12 @@ public class Topic {
     public List<Question> getQuestions() {
         return questions;
     }
+
+    @Override
+    public String toString() {
+        return "Topic{" +
+                "title='" + title + '\'' +
+                ", questions=" + questions +
+                '}';
+    }
 }

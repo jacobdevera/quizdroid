@@ -12,7 +12,8 @@ import android.widget.TextView;
 public class TopicOverviewFragment extends Fragment {
     private static final String ARG_TOPIC = "topic";
 
-    private String mTopic;
+    private int mTopicIndex;
+    private Topic mTopic;
 
     private OnFragmentInteractionListener mListener;
 
@@ -20,10 +21,10 @@ public class TopicOverviewFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static TopicOverviewFragment newInstance(String topic) {
+    public static TopicOverviewFragment newInstance(int topic) {
         TopicOverviewFragment fragment = new TopicOverviewFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_TOPIC, topic);
+        args.putInt(ARG_TOPIC, topic);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,7 +33,8 @@ public class TopicOverviewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mTopic = getArguments().getString(ARG_TOPIC);
+            mTopicIndex = getArguments().getInt(ARG_TOPIC);
+            mTopic = QuizApp.getRepository().getAllTopics().get(mTopicIndex);
         }
     }
 
@@ -44,9 +46,11 @@ public class TopicOverviewFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        TextView tv = (TextView) getView().findViewById(R.id.number_of_questions);
-        tv.setText(String.format(getString(R.string.str_number_of_questions),
-                getResources().getStringArray(R.array.questions).length));
+        TextView tvNumQuestions = (TextView) getView().findViewById(R.id.number_of_questions);
+        tvNumQuestions.setText(String.format(getString(R.string.str_number_of_questions),
+                mTopic.getQuestions().size()));
+        TextView tvLongDesc = (TextView) getView().findViewById(R.id.topic_overview);
+        tvLongDesc.setText(mTopic.getLongDesc());
     }
 
     @Override
