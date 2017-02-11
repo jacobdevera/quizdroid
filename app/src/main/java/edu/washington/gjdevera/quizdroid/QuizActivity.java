@@ -12,8 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class QuizActivity extends Activity implements TopicOverviewFragment.OnFragmentInteractionListener {
-    private Topic topic;
+public class QuizActivity extends Activity implements TopicOverviewFragment.OnFragmentInteractionListener, RadioGroup.OnCheckedChangeListener {
     private int topicNumber;
     private int questionNumber = -1; // first question = 0, increment by one when instantiating
     private int correctTotal = 0;
@@ -30,7 +29,7 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
         QuizApp mApplication = (QuizApp) getApplication();
 
         changeFragment(TopicOverviewFragment.newInstance(topicNumber)); // display topic overview
-        topic = mApplication.getRepository().getAllTopics().get(topicNumber);
+        final Topic topic = mApplication.getRepository().getAllTopics().get(topicNumber);
         headerText.setText(topic.getTitle());
 
         final Button button = (Button) findViewById(R.id.btn_main);
@@ -45,7 +44,6 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
                 if (isFirstFragmentOn) {
                     // Display answer fragment
                     RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group);
-                    String[] correctAnswers = getResources().getStringArray(R.array.answers);
                     button.setText(getString(R.string.str_next));
                     Boolean isCorrect = (((RadioButton) radioGroup.getChildAt(topic.getQuestions()
                             .get(questionNumber).getCorrect())).isChecked());
@@ -87,21 +85,20 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
         tx.commit();
     }
 
-    public void onRadioButtonClicked(View view) {
-        final Button submit = (Button) findViewById(R.id.btn_main);
-        yourAnswer = ((RadioButton) view).getText().toString();
-        /*int radioButtonID = radioGroup.getCheckedRadioButtonId();
-        View radioButton = radioGroup.findViewById(radioButtonID);
-        int idx = radioGroup.indexOfChild(radioButton);*/
-
-        submit.setVisibility(View.VISIBLE);
-    }
-
     public int getTopicNumber() {
         return topicNumber;
     }
     public String getYourAnswer() {
         return yourAnswer;
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        Button submit = (Button) findViewById(R.id.btn_main);
+        int radioButtonID = group.getCheckedRadioButtonId();
+        View radioButton = group.findViewById(radioButtonID);
+        yourAnswer = ((RadioButton) radioButton).getText().toString();
+        submit.setVisibility(View.VISIBLE);
     }
 
     @Override

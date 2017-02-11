@@ -16,7 +16,6 @@ public class AnswerFragment extends Fragment {
     public static final String ARG_CORRECT_TOTAL = "correctTotal";
 
     private int mQuestionNumber;
-    private Question mQuestion;
     private int mCorrectTotal;
 
     public AnswerFragment() {
@@ -37,9 +36,6 @@ public class AnswerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mQuestionNumber = getArguments().getInt(QuestionFragment.ARG_QUESTION_NUMBER);
-            mQuestion = ((QuizApp) getActivity().getApplication()).getRepository().getAllTopics()
-                    .get(((QuizActivity) getActivity()).getTopicNumber())
-                    .getQuestions().get(mQuestionNumber);
             mCorrectTotal = getArguments().getInt(ARG_CORRECT_TOTAL);
         }
     }
@@ -51,6 +47,9 @@ public class AnswerFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        Question mQuestion = ((QuizApp) getActivity().getApplication()).getRepository().getAllTopics()
+                .get(((QuizActivity) getActivity()).getTopicNumber())
+                .getQuestions().get(mQuestionNumber);
         TextView yourAnswerText = (TextView) getActivity().findViewById(R.id.your_answer);
 
         yourAnswerText.setText(String.format(getString(R.string.str_your_answer),
@@ -65,8 +64,13 @@ public class AnswerFragment extends Fragment {
                 mQuestionNumber + 1));
 
         final Button next = (Button) getActivity().findViewById(R.id.btn_main);
+
+        QuizApp mApplication = (QuizApp) getActivity().getApplication();
+        Topic topic = mApplication.getRepository().getAllTopics()
+                .get(((QuizActivity) getActivity()).getTopicNumber());
+
         final Boolean lastQuestion =
-                (mQuestionNumber + 1 >= getResources().getStringArray(R.array.questions).length);
+                (mQuestionNumber + 1 >= topic.getQuestions().size());
         if (lastQuestion) {
             next.setText(getString(R.string.str_finish));
         }

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.LayoutParams;
 import android.widget.TextView;
 
 public class QuestionFragment extends Fragment {
@@ -16,7 +18,6 @@ public class QuestionFragment extends Fragment {
     public static final String ARG_QUESTION_NUMBER = "questionNumber";
 
     private int mQuestionNumber;
-    private Question mQuestion;
 
     public QuestionFragment() {
         // required empty constructor
@@ -35,9 +36,6 @@ public class QuestionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mQuestionNumber = getArguments().getInt(ARG_QUESTION_NUMBER);
-            mQuestion = ((QuizApp) getActivity().getApplication()).getRepository().getAllTopics()
-                    .get(((QuizActivity) getActivity()).getTopicNumber())
-                    .getQuestions().get(mQuestionNumber);
         }
     }
 
@@ -48,19 +46,24 @@ public class QuestionFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        QuizActivity activity = (QuizActivity) getActivity();
+        Question mQuestion = ((QuizApp) activity.getApplication()).getRepository().getAllTopics()
+                .get(activity.getTopicNumber())
+                .getQuestions().get(mQuestionNumber);
         TextView tvQuestion = (TextView) getView().findViewById(R.id.question);
 
         tvQuestion.setText(mQuestion.getText());
 
-        RadioButton radio1 = (RadioButton) getView().findViewById(R.id.radio_1);
-        RadioButton radio2 = (RadioButton) getView().findViewById(R.id.radio_2);
-        RadioButton radio3 = (RadioButton) getView().findViewById(R.id.radio_3);
-        RadioButton radio4 = (RadioButton) getView().findViewById(R.id.radio_4);
-        String[] radioArray = mQuestion.getAnswers();
-        radio1.setText(radioArray[0]);
-        radio2.setText(radioArray[1]);
-        radio3.setText(radioArray[2]);
-        radio4.setText(radioArray[3]);
+        RadioGroup radioGroup = (RadioGroup) getView().findViewById(R.id.radio_group);
+        radioGroup.setOnCheckedChangeListener(activity);
+        RadioGroup.LayoutParams params =
+                new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        String[] answers = mQuestion.getAnswers();
+        for (int i = 0; i < answers.length; i++) {
+            RadioButton button = new RadioButton(getActivity());
+            button.setText(answers[i]);
+            radioGroup.addView(button, params);
+        }
     }
 
     @Override
