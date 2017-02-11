@@ -10,7 +10,6 @@ import java.util.List;
  */
 
 public class TopicMemoryRepository implements TopicRepository {
-    private static TopicMemoryRepository instance = null;
     private List<Topic> topics = new ArrayList<>();
 
     public TopicMemoryRepository() {
@@ -27,13 +26,6 @@ public class TopicMemoryRepository implements TopicRepository {
         }
         // log all topics and their questions
         Log.d(QuizApp.TAG, topics.toString());
-    }
-
-    public static TopicMemoryRepository getInstance() {
-        if (instance == null) {
-            instance = new TopicMemoryRepository();
-        }
-        return instance;
     }
 
     public List<Topic> getAllTopics() {

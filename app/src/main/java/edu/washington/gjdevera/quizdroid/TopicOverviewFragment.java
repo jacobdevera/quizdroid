@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class TopicOverviewFragment extends Fragment {
-    private static final String ARG_TOPIC = "topic";
+    public static final String ARG_TOPIC = "topic";
 
-    private int mTopicIndex;
+    private int mTopicNumber;
     private Topic mTopic;
 
     private OnFragmentInteractionListener mListener;
@@ -33,8 +33,9 @@ public class TopicOverviewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mTopicIndex = getArguments().getInt(ARG_TOPIC);
-            mTopic = QuizApp.getRepository().getAllTopics().get(mTopicIndex);
+            mTopicNumber = getArguments().getInt(ARG_TOPIC);
+            mTopic = ((QuizApp) getActivity().getApplication())
+                    .getRepository().getAllTopics().get(mTopicNumber);
         }
     }
 

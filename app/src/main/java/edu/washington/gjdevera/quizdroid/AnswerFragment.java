@@ -16,6 +16,7 @@ public class AnswerFragment extends Fragment {
     public static final String ARG_CORRECT_TOTAL = "correctTotal";
 
     private int mQuestionNumber;
+    private Question mQuestion;
     private int mCorrectTotal;
 
     public AnswerFragment() {
@@ -36,6 +37,9 @@ public class AnswerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mQuestionNumber = getArguments().getInt(QuestionFragment.ARG_QUESTION_NUMBER);
+            mQuestion = ((QuizApp) getActivity().getApplication()).getRepository().getAllTopics()
+                    .get(((QuizActivity) getActivity()).getTopicNumber())
+                    .getQuestions().get(mQuestionNumber);
             mCorrectTotal = getArguments().getInt(ARG_CORRECT_TOTAL);
         }
     }
@@ -52,11 +56,9 @@ public class AnswerFragment extends Fragment {
         yourAnswerText.setText(String.format(getString(R.string.str_your_answer),
                 ((QuizActivity) getActivity()).getYourAnswer()));
 
-        String[] correctAnswers = getResources().getStringArray(R.array.answers);
-        String[] choices = getResources().getStringArray(R.array.choices);
         TextView correctText = (TextView) getActivity().findViewById(R.id.correct_answer);
         correctText.setText(String.format(getString(R.string.str_correct_answer),
-                choices[Integer.parseInt(correctAnswers[mQuestionNumber])]));
+                mQuestion.getAnswers()[mQuestion.getCorrect()]));
 
         TextView ratioText = (TextView) getActivity().findViewById(R.id.ratio);
         ratioText.setText(String.format(getString(R.string.str_ratio), mCorrectTotal,

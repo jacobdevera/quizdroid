@@ -16,30 +16,4 @@
         <item>Marvel Super Heroes</item>
     </string-array>
     <string name="str_number_of_questions">Number of questions: %1$d</string>
-    <string-array name="questions">
-        <item>Filler question 1</item>
-        <item>Filler question 2</item>
-        <item>Filler question 3</item>
-        <item>Filler question 4</item>
-        <item>Filler question 5</item>
-        <item>Filler question 6</item>
-        <item>Filler question 7</item>
-        <item>Filler question 8</item>
-    </string-array>
-    <string-array name="answers">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>2</item>
-        <item>2</item>
-        <item>3</item>
-        <item>0</item>
-    </string-array>
-    <string-array name="choices">
-        <item>Filler choice 1</item>
-        <item>Filler choice 2</item>
-        <item>Filler choice 3</item>
-        <item>Filler choice 4</item>
-    </string-array>
 </resources>

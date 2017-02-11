@@ -16,6 +16,7 @@ public class QuestionFragment extends Fragment {
     public static final String ARG_QUESTION_NUMBER = "questionNumber";
 
     private int mQuestionNumber;
+    private Question mQuestion;
 
     public QuestionFragment() {
         // required empty constructor
@@ -34,6 +35,9 @@ public class QuestionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mQuestionNumber = getArguments().getInt(ARG_QUESTION_NUMBER);
+            mQuestion = ((QuizApp) getActivity().getApplication()).getRepository().getAllTopics()
+                    .get(((QuizActivity) getActivity()).getTopicNumber())
+                    .getQuestions().get(mQuestionNumber);
         }
     }
 
@@ -44,14 +48,15 @@ public class QuestionFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        TextView question = (TextView) getView().findViewById(R.id.question);
-        question.setText(getResources().getStringArray(R.array.questions)[mQuestionNumber]);
+        TextView tvQuestion = (TextView) getView().findViewById(R.id.question);
+
+        tvQuestion.setText(mQuestion.getText());
 
         RadioButton radio1 = (RadioButton) getView().findViewById(R.id.radio_1);
         RadioButton radio2 = (RadioButton) getView().findViewById(R.id.radio_2);
         RadioButton radio3 = (RadioButton) getView().findViewById(R.id.radio_3);
         RadioButton radio4 = (RadioButton) getView().findViewById(R.id.radio_4);
-        String[] radioArray = getResources().getStringArray(R.array.choices);
+        String[] radioArray = mQuestion.getAnswers();
         radio1.setText(radioArray[0]);
         radio2.setText(radioArray[1]);
         radio3.setText(radioArray[2]);

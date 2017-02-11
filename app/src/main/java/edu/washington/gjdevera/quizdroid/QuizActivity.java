@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 public class QuizActivity extends Activity implements TopicOverviewFragment.OnFragmentInteractionListener {
     private Topic topic;
+    private int topicNumber;
     private int questionNumber = -1; // first question = 0, increment by one when instantiating
     private int correctTotal = 0;
     private String yourAnswer;
@@ -23,12 +24,13 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-
         Intent intent = getIntent();
-        final int quizNumber = intent.getIntExtra(MainActivity.EXTRA_TOPIC, 0);
+        topicNumber = intent.getIntExtra(MainActivity.EXTRA_TOPIC, 0);
         final TextView headerText = (TextView) findViewById(R.id.header);
-        changeFragment(TopicOverviewFragment.newInstance(quizNumber)); // display topic overview
-        topic = QuizApp.getRepository().getAllTopics().get(quizNumber);
+        QuizApp mApplication = (QuizApp) getApplication();
+
+        changeFragment(TopicOverviewFragment.newInstance(topicNumber)); // display topic overview
+        topic = mApplication.getRepository().getAllTopics().get(topicNumber);
         headerText.setText(topic.getTitle());
 
         final Button button = (Button) findViewById(R.id.btn_main);
@@ -45,8 +47,8 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
                     RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group);
                     String[] correctAnswers = getResources().getStringArray(R.array.answers);
                     button.setText(getString(R.string.str_next));
-                    Boolean isCorrect = (((RadioButton) radioGroup.getChildAt(Integer
-                            .parseInt(correctAnswers[questionNumber]))).isChecked());
+                    Boolean isCorrect = (((RadioButton) radioGroup.getChildAt(topic.getQuestions()
+                            .get(questionNumber).getCorrect())).isChecked());
                     if (isCorrect) {
                         correctTotal++;
                         headerText.setText(getString(R.string.str_header_correct));
@@ -62,7 +64,7 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
                         isFirstFragmentOn = true;
                         button.setVisibility(View.GONE);
                         button.setText(getString(R.string.str_submit));
-                        headerText.setText(getString(R.string.str_topic_name));
+                        headerText.setText(topic.getTitle());
                         fragToDisplay = QuestionFragment.newInstance(questionNumber);
                     } else {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -95,6 +97,9 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
         submit.setVisibility(View.VISIBLE);
     }
 
+    public int getTopicNumber() {
+        return topicNumber;
+    }
     public String getYourAnswer() {
         return yourAnswer;
     }
