@@ -1,17 +1,15 @@
 package edu.washington.gjdevera.quizdroid;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_TOPIC = "edu.washington.gjdevera.quizdroid.TOPIC";
-    public static final String EXTRA_QUESTION_NUMBER = "edu.washington.gjdevera.quizdroid.QUESTION_NUMBER";
-    public static final String EXTRA_CORRECT_TOTAL = "edu.washington.gjdevera.quizdroid.CORRECT_TOTAL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

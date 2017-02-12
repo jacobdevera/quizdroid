@@ -26,10 +26,9 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
         Intent intent = getIntent();
         topicNumber = intent.getIntExtra(MainActivity.EXTRA_TOPIC, 0);
         final TextView headerText = (TextView) findViewById(R.id.header);
-        QuizApp mApplication = (QuizApp) getApplication();
 
         changeFragment(TopicOverviewFragment.newInstance(topicNumber)); // display topic overview
-        final Topic topic = mApplication.getRepository().getAllTopics().get(topicNumber);
+        final Topic topic = ((QuizApp) getApplication()).getRepository().getAllTopics().get(topicNumber);
         headerText.setText(topic.getTitle());
 
         final Button button = (Button) findViewById(R.id.btn_main);

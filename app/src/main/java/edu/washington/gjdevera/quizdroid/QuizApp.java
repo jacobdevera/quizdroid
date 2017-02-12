@@ -1,6 +1,5 @@
 package edu.washington.gjdevera.quizdroid;
 
-import android.os.Bundle;
 import android.util.Log;
 
 /**

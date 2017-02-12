@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/header"
-        android:textAppearance="@android:style/TextAppearance.Material.Headline" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <FrameLayout
         android:id="@+id/fragment_placeholder"
