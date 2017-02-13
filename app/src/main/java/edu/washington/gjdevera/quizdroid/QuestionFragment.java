@@ -51,9 +51,9 @@ public class QuestionFragment extends Fragment {
                 .get(activity.getTopicNumber())
                 .getQuestions().get(mQuestionNumber);
         TextView tvQuestion = (TextView) getView().findViewById(R.id.question);
-
         tvQuestion.setText(mQuestion.getText());
 
+        // instantiate radio group and set its listener
         RadioGroup radioGroup = (RadioGroup) getView().findViewById(R.id.radio_group);
         radioGroup.setOnCheckedChangeListener(activity);
         RadioGroup.LayoutParams params =

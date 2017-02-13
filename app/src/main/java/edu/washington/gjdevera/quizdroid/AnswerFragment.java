@@ -47,11 +47,12 @@ public class AnswerFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Question mQuestion = ((QuizApp) getActivity().getApplication()).getRepository().getAllTopics()
+        QuizApp mApplication = (QuizApp) getActivity().getApplication();
+        Question mQuestion = mApplication.getRepository().getAllTopics()
                 .get(((QuizActivity) getActivity()).getTopicNumber())
                 .getQuestions().get(mQuestionNumber);
         TextView yourAnswerText = (TextView) getActivity().findViewById(R.id.your_answer);
-
+        // get answer submitted on previous question, set text
         yourAnswerText.setText(String.format(getString(R.string.str_your_answer),
                 ((QuizActivity) getActivity()).getYourAnswer()));
 
@@ -63,12 +64,10 @@ public class AnswerFragment extends Fragment {
         ratioText.setText(String.format(getString(R.string.str_ratio), mCorrectTotal,
                 mQuestionNumber + 1));
 
+        // if the last question, change "Next" button to "Finish"
         final Button next = (Button) getActivity().findViewById(R.id.btn_main);
-
-        QuizApp mApplication = (QuizApp) getActivity().getApplication();
         Topic topic = mApplication.getRepository().getAllTopics()
                 .get(((QuizActivity) getActivity()).getTopicNumber());
-
         final Boolean lastQuestion =
                 (mQuestionNumber + 1 >= topic.getQuestions().size());
         if (lastQuestion) {

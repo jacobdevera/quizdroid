@@ -23,6 +23,8 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+        // get intent from previous activity, choosing the topic
         Intent intent = getIntent();
         topicNumber = intent.getIntExtra(MainActivity.EXTRA_TOPIC, 0);
         final TextView headerText = (TextView) findViewById(R.id.header);
@@ -54,6 +56,7 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
                     } else {
                         headerText.setText(getString(R.string.str_header_wrong));
                     }
+                    // go to next question
                     isFirstFragmentOn = false;
                     fragToDisplay = AnswerFragment.newInstance(questionNumber, correctTotal);
                 } else {
@@ -66,6 +69,7 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
                         headerText.setText(topic.getTitle());
                         fragToDisplay = QuestionFragment.newInstance(questionNumber);
                     } else {
+                        // go back to topic list
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -95,6 +99,7 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+        // get radio button that was checked and make the submit button visible
         Button submit = (Button) findViewById(R.id.btn_main);
         int radioButtonID = group.getCheckedRadioButtonId();
         View radioButton = group.findViewById(radioButtonID);

@@ -26,22 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         final List<Topic> topics = ((QuizApp) getApplication()).getRepository().getAllTopics();
 
-        /*
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, topics);
-
-        final ListView listView = (ListView) findViewById(R.id.topic_list);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
-                intent.putExtra(EXTRA_TOPIC, position);
-                startActivity(intent);
-            }
-        });
-        */
-
+        // instantiate RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(new RecyclerView.Adapter<TopicViewHolder>() {
@@ -57,10 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(TopicViewHolder vh, int position) {
-                TextView tv = (TextView) vh.itemView.findViewById(R.id.text_id);
+                // get TextViews and replace with the title and short description
+                TextView tv = (TextView) vh.itemView.findViewById(R.id.text1);
                 tv.setText(topics.get(position).getTitle());
                 tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_library_books, 0, 0, 0);
                 tv.setCompoundDrawablePadding(12);
+                tv = (TextView) vh.itemView.findViewById(R.id.text2);
+                tv.setText(topics.get(position).getShortDesc());
             }
 
             @Override
