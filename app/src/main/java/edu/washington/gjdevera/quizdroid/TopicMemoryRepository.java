@@ -14,9 +14,12 @@ public class TopicMemoryRepository implements TopicRepository {
 
     public TopicMemoryRepository() {
         // initialize hard-coded topics
-        topics.add(new Topic("Math", "Filler shortDesc for Math", "Filler longDesc for Math"));
-        topics.add(new Topic("Physics", "Filler shortDesc for Physics", "Filler longDesc for Physics"));
-        topics.add(new Topic("Marvel Super Heroes", "Filler shortDesc for Marvel Super Heroes", "Filler longDesc for Marvel Super Heroes"));
+        topics.add(new Topic(R.drawable.ic_library_books,
+                "Math", "Filler shortDesc for Math", "Filler longDesc for Math"));
+        topics.add(new Topic(R.drawable.ic_library_books,
+                "Physics", "Filler shortDesc for Physics", "Filler longDesc for Physics"));
+        topics.add(new Topic(R.drawable.ic_library_books,
+                "Marvel Super Heroes", "Filler shortDesc for Marvel Super Heroes", "Filler longDesc for Marvel Super Heroes"));
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 8; j++) {
                 topics.get(i).getQuestions().add(new Question("Filler question " + (j + 1) + " for " +

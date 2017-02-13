@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 // get TextViews and replace with the title and short description
                 TextView tv = (TextView) vh.itemView.findViewById(R.id.text1);
                 tv.setText(topics.get(position).getTitle());
-                tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_library_books, 0, 0, 0);
+                tv.setCompoundDrawablesWithIntrinsicBounds(topics.get(position).getIcon(), 0, 0, 0);
                 tv.setCompoundDrawablePadding(12);
                 tv = (TextView) vh.itemView.findViewById(R.id.text2);
                 tv.setText(topics.get(position).getShortDesc());

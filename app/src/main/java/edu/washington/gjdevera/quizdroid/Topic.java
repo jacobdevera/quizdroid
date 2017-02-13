@@ -1,5 +1,7 @@
 package edu.washington.gjdevera.quizdroid;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +10,14 @@ import java.util.List;
  */
 
 public class Topic {
+    private int icon;
     private String title;
     private String shortDesc;
     private String longDesc;
     private List<Question> questions = new ArrayList<>();
 
-    public Topic(String title, String shortDesc, String longDesc) {
+    public Topic(int icon, String title, String shortDesc, String longDesc) {
+        this.icon = icon;
         this.title = title;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
@@ -29,6 +33,10 @@ public class Topic {
 
     public void setLongDesc(String longDesc) {
         this.longDesc = longDesc;
+    }
+
+    public int getIcon() {
+        return icon;
     }
 
     public String getTitle() {

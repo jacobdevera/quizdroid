@@ -32,7 +32,7 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
         changeFragment(TopicOverviewFragment.newInstance(topicNumber)); // display topic overview
         final Topic topic = ((QuizApp) getApplication()).getRepository().getAllTopics().get(topicNumber);
         headerText.setText(topic.getTitle());
-        headerText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_library_books, 0, 0, 0);
+        headerText.setCompoundDrawablesWithIntrinsicBounds(topic.getIcon(), 0, 0, 0);
         headerText.setCompoundDrawablePadding(12);
 
         final Button button = (Button) findViewById(R.id.btn_main);
