@@ -17,7 +17,6 @@ public class QuizApp extends android.app.Application {
         instance = this;
         repository = new TopicMemoryRepository();
         Log.d(TAG, "QuizApp class loaded");
-        getRepository();
     }
 
     public static QuizApp getInstance() {

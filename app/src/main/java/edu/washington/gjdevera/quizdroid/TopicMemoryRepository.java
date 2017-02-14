@@ -1,6 +1,13 @@
 package edu.washington.gjdevera.quizdroid;
 
+import android.app.Activity;
+import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,26 +17,85 @@ import java.util.List;
  */
 
 public class TopicMemoryRepository implements TopicRepository {
+    private static String url = "https://tednewardsandbox.site44.com/questions.json";
+    public final static String TAG = "TopicMemoryRepository";
     private List<Topic> topics = new ArrayList<>();
 
-    public TopicMemoryRepository() {
-        // initialize hard-coded topics
-        topics.add(new Topic(R.drawable.ic_library_books,
-                "Math", "Filler shortDesc for Math", "Filler longDesc for Math"));
-        topics.add(new Topic(R.drawable.ic_library_books,
-                "Physics", "Filler shortDesc for Physics", "Filler longDesc for Physics"));
-        topics.add(new Topic(R.drawable.ic_library_books,
-                "Marvel Super Heroes", "Filler shortDesc for Marvel Super Heroes", "Filler longDesc for Marvel Super Heroes"));
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 8; j++) {
-                topics.get(i).getQuestions().add(new Question("Filler question " + (j + 1) + " for " +
-                        topics.get(i).getTitle(),
-                        new String[]{"Filler choice 1", "Filler choice 2", "Filler choice 3", "Filler choice 4"},
-                        0));
-            }
+    public void initializeRepo(final Activity activity) {
+        if (topics.size() > 0) {
+            return;
         }
-        // log all topics and their questions
-        Log.d(QuizApp.TAG, topics.toString());
+
+        HttpHandler sh = new HttpHandler();
+
+        // making a request to url and getting response
+        String jsonStr = sh.makeServiceCall(url);
+
+        Log.e(TAG, "Response from url: " + jsonStr);
+
+        if (jsonStr != null) {
+            try {
+                // Getting JSON Array node
+                JSONArray topics = new JSONArray(jsonStr);
+
+                // looping through topics
+                for (int i = 0; i < topics.length(); i++) {
+                    JSONObject topic = topics.getJSONObject(i);
+
+                    String title = topic.getString("title");
+                    String desc = topic.getString("desc");
+                    Topic newTopic = new Topic(R.drawable.ic_library_books, title, desc, desc);
+
+                    // looping through questions in the current topic
+                    JSONArray questions = topic.getJSONArray("questions");
+                    for (int j = 0; j < questions.length(); j++) {
+                        JSONObject question = questions.getJSONObject(j);
+                        String text = question.getString("text");
+                        int answer = Integer.parseInt(question.getString("answer"));
+
+                        // looping through answers in the current question
+                        JSONArray answers = question.getJSONArray("answers");
+                        int lengthAnswers = answers.length();
+                        String[] answersArray = new String[lengthAnswers];
+
+                        // add new question to the topic and update it with its answers
+                        newTopic.getQuestions().add(new Question(text, answersArray, answer - 1));
+                        for (int k = 0; k < answers.length(); k++) {
+                            answersArray[k] = answers.getString(k);
+                            newTopic.getQuestions().get(j).setAnswers(answersArray);
+                        }
+                    }
+                    // add new topic to the repository
+                    ((QuizApp) activity.getApplication()).getRepository().getAllTopics().add(newTopic);
+                }
+                // log all topics
+                Log.d(QuizApp.TAG, topics.toString());
+            } catch (final JSONException e) {
+                Log.e(TAG, "Json parsing error: " + e.getMessage());
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(activity,
+                                "Json parsing error: " + e.getMessage(),
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+
+            }
+        } else {
+            Log.e(TAG, "Couldn't get json from server.");
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(activity,
+                            "Couldn't get json from server. Check LogCat for possible errors!",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+            });
+
+        }
     }
 
     public List<Topic> getAllTopics() {
