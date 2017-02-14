@@ -12,4 +12,9 @@
     <string name="str_finish">Finish</string>
     <string name="str_number_of_questions">Number of questions: %1$d</string>
     <string name="action_preferences">Preferences</string>
+
+    <string name="title_activity_preferences">Preferences</string>
+    <string name="pref_header_general">General</string>
+    <string name="pref_title_json_url">JSON URL</string>
+    <string name="pref_title_sync_frequency">Sync frequency (minutes)</string>
 </resources>

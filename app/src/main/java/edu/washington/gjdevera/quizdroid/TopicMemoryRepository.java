@@ -2,6 +2,8 @@ package edu.washington.gjdevera.quizdroid;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,13 +19,21 @@ import java.util.List;
  */
 
 public class TopicMemoryRepository implements TopicRepository {
-    private static String url = "https://tednewardsandbox.site44.com/questions.json";
+    private String url;
     public final static String TAG = "TopicMemoryRepository";
     private List<Topic> topics = new ArrayList<>();
 
     public void initializeRepo(final Activity activity) {
         if (topics.size() > 0) {
             return;
+        }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        url = prefs.getString("json_url", "https://tednewardsandbox.site44.com/questions.json");
+        if (url == "" ) { // if blank in preferences, reset to default
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("json_url", "https://tednewardsandbox.site44.com/questions.json");
+            editor.commit();
+            url = "https://tednewardsandbox.site44.com/questions.json";
         }
 
         HttpHandler sh = new HttpHandler();
@@ -89,13 +99,17 @@ public class TopicMemoryRepository implements TopicRepository {
                 @Override
                 public void run() {
                     Toast.makeText(activity,
-                            "Couldn't get json from server. Check LogCat for possible errors!",
+                            "Couldn't get json from server. Check your JSON URL under Preferences.",
                             Toast.LENGTH_LONG)
                             .show();
                 }
             });
 
         }
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public List<Topic> getAllTopics() {

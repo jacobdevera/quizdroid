@@ -1,0 +1,21 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <EditTextPreference
+        android:defaultValue="https://tednewardsandbox.site44.com/questions.json"
+        android:inputType="textUri"
+        android:key="json_url"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_json_url" />
+
+    <EditTextPreference
+        android:defaultValue="180"
+        android:inputType="number"
+        android:key="sync_frequency"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_sync_frequency" />
+</PreferenceScreen>
