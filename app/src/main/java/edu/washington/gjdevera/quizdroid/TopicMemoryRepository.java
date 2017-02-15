@@ -19,17 +19,15 @@ import java.util.List;
  */
 
 public class TopicMemoryRepository implements TopicRepository {
-    private String url;
     public final static String TAG = "TopicMemoryRepository";
     private List<Topic> topics = new ArrayList<>();
 
     public void initializeRepo(final Activity activity) {
-        if (topics.size() > 0) {
-            return;
-        }
+        topics.clear();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        url = prefs.getString("json_url", "https://tednewardsandbox.site44.com/questions.json");
-        if (url == "" ) { // if blank in preferences, reset to default
+        String url = prefs.getString("json_url", null);
+        Log.d(TAG, "URL " + url);
+        if (url == null || url == "") { // if blank in preferences, reset to default
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("json_url", "https://tednewardsandbox.site44.com/questions.json");
             editor.commit();
@@ -106,10 +104,6 @@ public class TopicMemoryRepository implements TopicRepository {
             });
 
         }
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public List<Topic> getAllTopics() {

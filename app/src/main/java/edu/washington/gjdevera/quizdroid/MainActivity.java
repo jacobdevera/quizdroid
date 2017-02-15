@@ -1,9 +1,14 @@
 package edu.washington.gjdevera.quizdroid;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,17 +28,33 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ProgressDialog pDialog;
+    private PendingIntent pendingIntent;
+    private Context mContext;
+    private static MainActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
         setContentView(R.layout.activity_main);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        // get interval to update JSON from preferences
+        Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        int interval = Integer.parseInt(prefs.getString("sync_frequency", "180")) * 1000 * 60;
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+
         // fetch and parse JSON
-        new GetTopics().execute();
+        start();
+    }
+
+    public static MainActivity getInstance() {
+        return instance;
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -41,10 +62,14 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void start() {
+        new GetTopics().execute();
+    }
+
     /**
      * Async task class to get json by making HTTP call
      */
-    private class GetTopics extends AsyncTask<Void, Void, Void> {
+    public class GetTopics extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {

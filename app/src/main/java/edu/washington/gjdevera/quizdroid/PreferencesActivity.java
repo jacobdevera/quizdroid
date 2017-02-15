@@ -37,12 +37,6 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
-
-            int n = Integer.parseInt(prefs.getString("sync_frequency", "180"));
-
-            Log.d(TopicMemoryRepository.TAG, n + "");
-
             String stringValue = value.toString();
             preference.setSummary(stringValue);
             return true;
