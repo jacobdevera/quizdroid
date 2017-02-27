@@ -19,6 +19,12 @@
     <string name="pref_title_sync_frequency">Sync frequency (minutes)</string>
     <string name="connection_error">No internet connection.
         Falling back to last downloaded JSON file.</string>
+
+    <string name="airplane_mode_title">Airplane mode is on</string>
+    <string name="airplane_mode_dialog">Do you want to turn it off in Settings?</string>
+    <string name="airplane_mode_positive">Go to Settings</string>
+    <string name="airplane_mode_negative">Cancel</string>
+
     <string name="json_error">Could not get JSON from preferred URL. Falling back to last downloaded file.</string>
     <string name="json_error_no_file">Could not get JSON from server, and no file currently exists.
         Check your JSON URL under Preferences.</string>

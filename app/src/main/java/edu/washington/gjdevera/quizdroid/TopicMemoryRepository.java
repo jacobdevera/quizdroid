@@ -1,13 +1,12 @@
 package edu.washington.gjdevera.quizdroid;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.support.annotation.MainThread;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -68,9 +67,9 @@ public class TopicMemoryRepository implements TopicRepository {
             jsonStr = sh.makeServiceCall(url);
             Log.i(TAG, "Response from url: " + jsonStr);
             // saving response to JSON file
-            if (jsonStr != null)
+            if (jsonStr != null) {
                 MyJSON.saveData(activity, jsonStr);
-            else
+            } else {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -85,9 +84,10 @@ public class TopicMemoryRepository implements TopicRepository {
                                 .show();
                     }
                 });
+            }
         }
+        // read from file, whether it was downloaded from server or used as a fallback
         jsonStr = MyJSON.getData(activity);
-
         if (jsonStr != null) {
             try {
                 // Getting JSON Array node

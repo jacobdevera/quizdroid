@@ -1,14 +1,17 @@
 package edu.washington.gjdevera.quizdroid;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ProgressDialog pDialog;
     private PendingIntent pendingIntent;
-    private Context mContext;
+    private AsyncTask mTask;
     private static MainActivity instance;
 
     @Override
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity getInstance() {
         return instance;
     }
+    public AsyncTask getTask() { return mTask; }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start() {
-        new GetTopics().execute();
+        mTask = new GetTopics().execute();
     }
 
     /**
@@ -94,6 +98,28 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            if (isAirplaneModeOn(MainActivity.this)) {
+                // prompt user to go to settings to turn off airplane mode
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        MainActivity.this);
+
+                alertDialogBuilder.setTitle(MainActivity.this.getString(R.string.airplane_mode_title))
+                        .setMessage(MainActivity.this.getString(R.string.airplane_mode_dialog))
+                        .setCancelable(true)
+                        .setPositiveButton(MainActivity.this.getString(R.string.airplane_mode_positive),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        // go to settings
+                                        MainActivity.this.startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                                    }
+                                })
+                        .setNegativeButton(MainActivity.this.getString(R.string.airplane_mode_negative),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        dialog.cancel();
+                                    }
+                                }).create().show();
+            }
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
@@ -124,10 +150,6 @@ public class MainActivity extends AppCompatActivity {
                     tv.setCompoundDrawablePadding(12);
                     tv = (TextView) vh.itemView.findViewById(R.id.text2);
                     tv.setText(topics.get(position).getShortDesc());
-                    if (topics.size() > 0) {
-                        Toast.makeText(MainActivity.this, getString(R.string.json_success), Toast.LENGTH_SHORT)
-                                .show();
-                    }
                 }
 
                 @Override
@@ -135,6 +157,11 @@ public class MainActivity extends AppCompatActivity {
                     return topics.size();
                 }
             });
+            // success toast
+            if (topics.size() > 0) {
+                Toast.makeText(MainActivity.this, getString(R.string.json_success), Toast.LENGTH_SHORT)
+                        .show();
+            }
         }
 
     }
@@ -170,5 +197,10 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    private boolean isAirplaneModeOn(Context context) {
+        return Settings.Global.getInt(context.getContentResolver(),
+                Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
 }
