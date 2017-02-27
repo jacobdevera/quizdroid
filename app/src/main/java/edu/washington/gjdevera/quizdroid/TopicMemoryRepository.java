@@ -2,9 +2,15 @@ package edu.washington.gjdevera.quizdroid;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.support.annotation.MainThread;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -34,12 +40,37 @@ public class TopicMemoryRepository implements TopicRepository {
             url = "https://tednewardsandbox.site44.com/questions.json";
         }
 
-        HttpHandler sh = new HttpHandler();
+        ConnectivityManager cm =
+                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        // making a request to url and getting response
-        String jsonStr = sh.makeServiceCall(url);
-
-        Log.e(TAG, "Response from url: " + jsonStr);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        String jsonStr;
+        if (!isConnected) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar.make(activity.findViewById(R.id.coordinatorLayout),
+                            R.string.connection_error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.snackbar_retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MainActivity.getInstance().start();
+                        }
+                    })
+                    .show();
+                }
+            });
+        } else {
+            HttpHandler sh = new HttpHandler();
+            // making a request to url and getting response
+            jsonStr = sh.makeServiceCall(url);
+            Log.e(TAG, "Response from url: " + jsonStr);
+            // saving response to JSON file
+            MyJSON.saveData(activity, jsonStr);
+        }
+        jsonStr = MyJSON.getData(activity);
 
         if (jsonStr != null) {
             try {
@@ -79,26 +110,30 @@ public class TopicMemoryRepository implements TopicRepository {
                 // log all topics
                 Log.d(QuizApp.TAG, topics.toString());
             } catch (final JSONException e) {
-                Log.e(TAG, "Json parsing error: " + e.getMessage());
+                Log.e(TAG, "JSON parsing error: " + e.getMessage());
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(activity,
-                                "Json parsing error: " + e.getMessage(),
+                        Toast.makeText(activity, "JSON parsing error: " + e.getMessage(),
                                 Toast.LENGTH_LONG)
                                 .show();
                     }
                 });
 
             }
-        } else {
-            Log.e(TAG, "Couldn't get json from server.");
+        } else if (isConnected){
+            Log.e(TAG, "Couldn't get JSON from server.");
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(activity,
-                            "Couldn't get json from server. Check your JSON URL under Preferences.",
-                            Toast.LENGTH_LONG)
+                    Snackbar.make(activity.findViewById(R.id.coordinatorLayout),
+                            R.string.connection_error, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.snackbar_retry, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    MainActivity.getInstance().start();
+                                }
+                            })
                             .show();
                 }
             });

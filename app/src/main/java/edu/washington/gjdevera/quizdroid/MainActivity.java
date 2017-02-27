@@ -121,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
                     tv.setCompoundDrawablePadding(12);
                     tv = (TextView) vh.itemView.findViewById(R.id.text2);
                     tv.setText(topics.get(position).getShortDesc());
+                    if (topics.size() > 0) {
+                        Toast.makeText(MainActivity.this, getString(R.string.json_success), Toast.LENGTH_SHORT)
+                                .show();
+                    }
                 }
 
                 @Override

@@ -17,4 +17,9 @@
     <string name="pref_header_general">General</string>
     <string name="pref_title_json_url">JSON URL</string>
     <string name="pref_title_sync_frequency">Sync frequency (minutes)</string>
+    <string name="connection_error">No internet connection.
+        Falling back to last downloaded JSON file.</string>
+    <string name="json_error">Couldn't get JSON from server. Check your JSON URL under Preferences.</string>
+    <string name="json_success">Topics successfully loaded.</string>
+    <string name="snackbar_retry">Retry</string>
 </resources>
