@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ProgressDialog pDialog;
     private PendingIntent pendingIntent;
-    private AsyncTask mTask;
     private static MainActivity instance;
 
     @Override
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity getInstance() {
         return instance;
     }
-    public AsyncTask getTask() { return mTask; }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start() {
-        mTask = new GetTopics().execute();
+        new GetTopics().execute();
     }
 
     /**
@@ -110,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
                                         // go to settings
-                                        MainActivity.this.startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                                        MainActivity.this.startActivityForResult(new Intent
+                                                (android.provider.Settings.ACTION_SETTINGS), 0);
                                     }
                                 })
                         .setNegativeButton(MainActivity.this.getString(R.string.airplane_mode_negative),
