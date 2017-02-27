@@ -19,7 +19,9 @@
     <string name="pref_title_sync_frequency">Sync frequency (minutes)</string>
     <string name="connection_error">No internet connection.
         Falling back to last downloaded JSON file.</string>
-    <string name="json_error">Couldn't get JSON from server. Check your JSON URL under Preferences.</string>
+    <string name="json_error">Could not get JSON from preferred URL. Falling back to last downloaded file.</string>
+    <string name="json_error_no_file">Could not get JSON from server, and no file currently exists.
+        Check your JSON URL under Preferences.</string>
     <string name="json_success">Topics successfully loaded.</string>
     <string name="snackbar_retry">Retry</string>
 </resources>

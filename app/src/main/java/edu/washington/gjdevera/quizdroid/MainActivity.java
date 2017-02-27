@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public final static String TAG = "MainActivity";
     public final static String EXTRA_TOPIC = "edu.washington.gjdevera.quizdroid.TOPIC";
 
     private RecyclerView mRecyclerView;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int interval = Integer.parseInt(prefs.getString("sync_frequency", "180")) * 1000 * 60;
+        Log.i(TAG, "Interval (milliseconds): " + interval);
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
 

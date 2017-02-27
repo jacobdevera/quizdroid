@@ -66,9 +66,25 @@ public class TopicMemoryRepository implements TopicRepository {
             HttpHandler sh = new HttpHandler();
             // making a request to url and getting response
             jsonStr = sh.makeServiceCall(url);
-            Log.e(TAG, "Response from url: " + jsonStr);
+            Log.i(TAG, "Response from url: " + jsonStr);
             // saving response to JSON file
-            MyJSON.saveData(activity, jsonStr);
+            if (jsonStr != null)
+                MyJSON.saveData(activity, jsonStr);
+            else
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar.make(activity.findViewById(R.id.coordinatorLayout),
+                                R.string.json_error, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.snackbar_retry, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        MainActivity.getInstance().start();
+                                    }
+                                })
+                                .show();
+                    }
+                });
         }
         jsonStr = MyJSON.getData(activity);
 
@@ -121,13 +137,13 @@ public class TopicMemoryRepository implements TopicRepository {
                 });
 
             }
-        } else if (isConnected){
+        } else if (isConnected) {
             Log.e(TAG, "Couldn't get JSON from server.");
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Snackbar.make(activity.findViewById(R.id.coordinatorLayout),
-                            R.string.connection_error, Snackbar.LENGTH_LONG)
+                            R.string.json_error_no_file, Snackbar.LENGTH_LONG)
                             .setAction(R.string.snackbar_retry, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -137,7 +153,6 @@ public class TopicMemoryRepository implements TopicRepository {
                             .show();
                 }
             });
-
         }
     }
 
