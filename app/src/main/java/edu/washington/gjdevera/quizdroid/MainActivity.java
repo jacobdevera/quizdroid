@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     public final static String TAG = "MainActivity";
     public final static String EXTRA_TOPIC = "edu.washington.gjdevera.quizdroid.TOPIC";
 
-    private RecyclerView mRecyclerView;
     private ProgressDialog pDialog;
     private PendingIntent pendingIntent;
     private static MainActivity instance;
@@ -146,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             final List<Topic> topics = ((QuizApp) getApplication()).getRepository().getAllTopics();
 
             // instantiate RecyclerView
-            mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+            RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             mRecyclerView.setAdapter(new RecyclerView.Adapter<TopicViewHolder>() {
 
@@ -188,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        public TopicViewHolder(View v) {
+        private TopicViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
         }
