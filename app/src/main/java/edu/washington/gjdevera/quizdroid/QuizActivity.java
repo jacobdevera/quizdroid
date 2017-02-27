@@ -70,9 +70,6 @@ public class QuizActivity extends Activity implements TopicOverviewFragment.OnFr
                         fragToDisplay = QuestionFragment.newInstance(questionNumber);
                     } else {
                         // go back to topic list
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
                         finish();
                     }
                 }

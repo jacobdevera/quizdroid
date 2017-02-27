@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private PendingIntent pendingIntent;
     private static MainActivity instance;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +48,30 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
 
         // get interval to update JSON from preferences
+
         Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int interval = Integer.parseInt(prefs.getString("sync_frequency", "180")) * 1000 * 60;
         Log.i(TAG, "Interval (milliseconds): " + interval);
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+        final AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        boolean alarmUp = (PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, PendingIntent.FLAG_NO_CREATE) != null);//just changed the flag
+        Log.d(TAG, "alarm is " + (alarmUp ? "" : "not") + "up");
+        if (!alarmUp)
+            manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+
+        // reset the alarm every time the sync frequency preference changes
+        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                if (key.equals("sync_frequency")) {
+                    int interval = Integer.parseInt(prefs.getString("sync_frequency", "180")) * 1000 * 60;
+                    Log.i(TAG, "Interval (milliseconds): " + interval);
+                    manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+                }
+            }
+        };
+        prefs.registerOnSharedPreferenceChangeListener(listener);
 
         // fetch and parse JSON
         start();
